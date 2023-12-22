@@ -11,9 +11,11 @@ provider "aws" {
 # Create VPCS
 resource "aws_vpc" "vpc_us_east_2" {
     provider = aws.us-east-2
+
     cidr_block            = "10.3.0.0/16"
     enable_dns_support    = true
     enable_dns_hostnames  = true
+
     tags = {
       Name = "dn-vpc-us-east-2"
     }
@@ -21,9 +23,11 @@ resource "aws_vpc" "vpc_us_east_2" {
 
 resource "aws_vpc" "vpc_us_west_2" {
   provider              = aws.us-west-2
+
   cidr_block            = "10.4.0.0/16"
   enable_dns_support    = true
   enable_dns_hostnames  = true
+
   tags = {
     Name = "dn-vpc-us-west-2"
   }
@@ -32,10 +36,12 @@ resource "aws_vpc" "vpc_us_west_2" {
 
 # Create Subnets
 resource "aws_subnet" "subnet_east_2a" {
+
   provider            = aws.us-east-2
   vpc_id              = aws_vpc.vpc_us_east_2.id
   cidr_block          = "10.3.1.0/24"
   availability_zone   = "us-east-2a"
+
   tags = {
     Name = "subnet-east-2a"
   }
@@ -43,9 +49,11 @@ resource "aws_subnet" "subnet_east_2a" {
 
 resource "aws_subnet" "subnet_east_2b" {
   provider            = aws.us-east-2
+
   vpc_id              = aws_vpc.vpc_us_east_2.id
   cidr_block          = "10.3.2.0/24"
   availability_zone   = "us-east-2b"
+
   tags = {
     Name = "subnet-east-2b"
   }
@@ -53,9 +61,11 @@ resource "aws_subnet" "subnet_east_2b" {
 
 resource "aws_subnet" "subnet_west_2a" {
   provider            = aws.us-west-2
+
   vpc_id              = aws_vpc.vpc_us_west_2.id
   cidr_block          = "10.4.1.0/24"
   availability_zone   = "us-west-2a"
+
   tags = {
     Name = "subnet-west-2a"
   }
@@ -63,23 +73,28 @@ resource "aws_subnet" "subnet_west_2a" {
 
 resource "aws_subnet" "subnet_west_2b" {
   provider            = aws.us-west-2
+
   vpc_id              = aws_vpc.vpc_us_west_2.id
   cidr_block          = "10.4.2.0/24"
   availability_zone   = "us-west-2b"
+
   tags = {
     Name = "subnet-west-2b"
   }
 }
 
-# Create EC2 Instances for Domain Controllers
+# Create EC2 Instances for Domain Controllers w/ Fleet Manager Access
 
 resource "aws_instance" "pdc_east_2" {
   provider              = aws.us-east-2
+
   ami                   = "ami-0b54d725f940e0d1e" # Replace with actual AMI ID
   instance_type         = "t2.large"
   subnet_id             = aws_subnet.subnet_east_2a.id
+
   key_name              = "nkere_dc-key" # Replace with key name
   iam_instance_profile  = "AmazonSSMRoleForInstancesQuickSetup"
+
   tags = {
     Name = "DN-PDC-East-2"
   }
@@ -87,11 +102,14 @@ resource "aws_instance" "pdc_east_2" {
 
 resource "aws_instance" "rodc_west_2" {
   provider              = aws.us-west-2
+
   ami                   = "ami-090f1243429a46b63" # Replace with actual AMI ID
   instance_type         = "t2.large"
   subnet_id             = aws_subnet.subnet_west_2a.id
+
   key_name              = "dn-rodc-key" # Replace with Key name
   iam_instance_profile  = "AmazonSSMRoleForInstancesQuickSetup"
+
   tags = {
     Name = "DN-RODC-West-2"
   }
