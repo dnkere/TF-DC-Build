@@ -251,10 +251,3 @@ resource "aws_route" "route_from_west_to_east" {
   destination_cidr_block    = aws_vpc.vpc_us_east_2.cidr_block
   vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
 }
-
-
-variable "davids_test_variable" {
-  type = string
-  description = "This is a test variable"
-  
-}
