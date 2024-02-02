@@ -40,3 +40,7 @@ venv/
 .python_packages
 __pycache__
 .venv
+
+*/script.ps1
+*/pdc.ps1
+*/rodc.ps1
