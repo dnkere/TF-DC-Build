@@ -7,8 +7,10 @@ provider "aws" {
   alias = "us-west-2"
   region = "us-west-2"
 }
+################################
+#### Create VPCS
+################################
 
-# Create VPCS
 resource "aws_vpc" "vpc_us_east_2" {
     provider = aws.us-east-2
     cidr_block            = "10.3.0.0/16"
@@ -29,8 +31,10 @@ resource "aws_vpc" "vpc_us_west_2" {
   }
 }
 
+################################
+#### Create Subnets
+################################
 
-# Create Subnets
 resource "aws_subnet" "subnet_east_2a" {
   provider            = aws.us-east-2
   vpc_id              = aws_vpc.vpc_us_east_2.id
@@ -71,7 +75,9 @@ resource "aws_subnet" "subnet_west_2b" {
   }
 }
 
-# VPC Endpoints in us-east-2
+################################
+#### VPC Endpoints in us-east-2
+################################
 
 resource "aws_vpc_endpoint" "ssm_east" {
   provider              = aws.us-east-2
@@ -106,7 +112,10 @@ resource "aws_vpc_endpoint" "ec2messages_east" {
   security_group_ids    = [aws_security_group.ssm_sg_east.id]
 }
 
-# Security Groups for us-east-2
+################################
+#### Security Groups for us-east-2
+################################
+
 resource "aws_security_group" "ssm_sg_east" {
   provider              = aws.us-east-2
   name                  = "dn-ssm-sg-east"
@@ -128,7 +137,9 @@ resource "aws_security_group" "ssm_sg_east" {
   }
 }
 
-# VPC Endpoints for us-west-2
+################################
+#### VPC Endpoints for us-west-2
+################################
 
 resource "aws_vpc_endpoint" "ssm_west" {
   provider              = aws.us-west-2
@@ -160,7 +171,9 @@ resource "aws_vpc_endpoint" "ec2messages_west" {
   security_group_ids    = [aws_security_group.ssm_sg_west.id]
 }
 
-# Security Groups for us-west-2
+################################
+#### Security Groups for us-west-2
+################################
 
 resource "aws_security_group" "ssm_sg_west" {
   provider              = aws.us-west-2
@@ -183,7 +196,10 @@ resource "aws_security_group" "ssm_sg_west" {
   }
 }
 
-# VPC Peering Connection initiated in us-west-2
+################################
+#### VPC Peering Connection initiated in us-west-2
+################################
+
 resource "aws_vpc_peering_connection" "peer" {
   provider              = aws.us-west-2
 
@@ -197,7 +213,10 @@ resource "aws_vpc_peering_connection" "peer" {
   }
 }
 
-# Accept the VPC Peering Connection in us-east-2
+################################
+#### Accept the VPC Peering Connection in us-east-2
+################################
+
 resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
   provider                  = aws.us-east-2
 
@@ -209,7 +228,10 @@ resource "aws_vpc_peering_connection_accepter" "peer_accepter" {
   }
 }
 
-# Update route tables for each VPC to route traffic to the peered VPC
+################################
+#### Update route tables for each VPC to route traffic to the peered VPC
+################################
+
 resource "aws_route" "route_from_east_to_west" {
   provider                  = aws.us-east-2
   

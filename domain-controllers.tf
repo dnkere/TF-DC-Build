@@ -1,5 +1,6 @@
-# Create EC2 Instances for Domain Controllers w/ SSM Agent
-
+################################
+#### Create EC2 Instances for Domain Controllers w/ SSM Agent
+################################
 
 resource "aws_instance" "pdc_east_2" {
   provider              = aws.us-east-2
@@ -10,7 +11,7 @@ resource "aws_instance" "pdc_east_2" {
   key_name              = "nkere_dc-key" # Replace with key name
   iam_instance_profile  = "AmazonSSMRoleForInstancesQuickSetup"
 
- user_data = filebase64("${path.module}/pdc.ps1")
+#  user_data = filebase64("${path.module}/pdc.ps1")
  
   tags = {
     Name = "DN-PDC-East-2"
@@ -27,7 +28,7 @@ resource "aws_instance" "rodc_west_2" {
   key_name              = "dn-rodc-key" # Replace with Key name
   iam_instance_profile  = "AmazonSSMRoleForInstancesQuickSetup"
 
-  user_data = filebase64("${path.module}/rodc.ps1")
+  # user_data = filebase64("${path.module}/rodc.ps1")
 
   tags = {
     Name = "DN-RODC-West-2"
