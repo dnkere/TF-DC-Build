@@ -41,6 +41,6 @@ venv/
 __pycache__
 .venv
 
-*/script.ps1
-*/pdc.ps1
-*/rodc.ps1
+script.ps1
+pdc.ps1
+rodc.ps1
