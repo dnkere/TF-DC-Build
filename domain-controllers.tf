@@ -3,7 +3,7 @@
 ################################
 
 resource "aws_instance" "pdc_east_1" {
-  provider              = aws.us-east-2
+  provider              = aws.us-east-1
 
   ami                   = "ami-094aa6728b151e05a" # Replace with actual AMI ID
   instance_type         = "t2.large"
@@ -20,7 +20,7 @@ resource "aws_instance" "pdc_east_1" {
 }
 
 resource "aws_instance" "rodc_west_1" {
-  provider              = aws.us-west-2
+  provider              = aws.us-west-1
 
   ami                   = "ami-01a7d95ecd129c2f1" # Replace with actual AMI ID
   instance_type         = "t2.large"
